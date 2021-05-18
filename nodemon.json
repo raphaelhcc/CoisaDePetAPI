@@ -1,0 +1,9 @@
+{
+    "env": {
+        "PG_USER" : "zxcyekfw",
+        "PG_PASSWORD" : "WOslrKIn9zfRisIXZbgslhXyRsM2djMs",
+        "PG_DATABASE" : "zxcyekfw",
+        "PG_HOST" : "tuffi.db.elephantsql.com",
+        "PG_PORT" : 5432
+    }
+}
