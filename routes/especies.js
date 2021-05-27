@@ -1,7 +1,7 @@
-const { Router } = require('express');
-const express = require('express');
+import { Router }  from 'express';
+import express  from 'express';
+import pool  from '../database.js';
 const router = express.Router();
-const pool = require('../database').pool;
 
 
 // RETORNA OS PEDIDOS
@@ -32,6 +32,7 @@ router.get('/:id_especie', (req, res, next) => {
             'SELECT * FROM tb_especie WHERE id_especie = $1;',
             [req.params.id_especie],
             (err, result) => {
+                done()
                 if(err) { return res.status(500).send({ error: err}) }
                 return res.status(200).send({response: result})
             }
@@ -39,4 +40,4 @@ router.get('/:id_especie', (req, res, next) => {
     })    
 }); 
 
-module.exports = router;
+export default router;

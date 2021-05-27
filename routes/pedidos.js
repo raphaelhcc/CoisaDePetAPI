@@ -1,7 +1,7 @@
-const { Router } = require('express');
-const express = require('express');
+import { Router } from 'express';
+import express from 'express';
+import pool from '../database.js';
 const router = express.Router();
-const pool = require('../database').pool;
 
 
 // RETORNA OS PEDIDOS
@@ -75,6 +75,7 @@ router.get('/:id_pedido', (req, res, next) => {
             'SELECT * FROM tb_pedido WHERE id_pedido = $1;',
             [req.params.id_pedido],
             (err, result) => {
+                done()
                 if(err) { return res.status(500).send({ error: err}) }
                 return res.status(200).send({response: result})
             }
@@ -91,6 +92,7 @@ router.get('/uuid/:uuid', (req, res, next) => {
             'SELECT * FROM tb_pedido WHERE uuid = $1;',
             [req.params.uuid],
             (err, result) => {
+                done()
                 if(err) { return res.status(500).send({ error: err}) }
                 return res.status(200).send({response: result})
             }
@@ -107,6 +109,7 @@ router.get('/categoria/:id_categoria', (req, res, next) => {
             'SELECT * FROM tb_pedido WHERE id_categoria = $1;',
             [req.params.id_categoria],
             (err, result) => {
+                done()
                 if(err) { return res.status(500).send({ error: err}) }
                 return res.status(200).send({response: result})
             }
@@ -178,4 +181,4 @@ router.delete('/', (req, res, next) => {
 }); 
 
 
-module.exports = router;
+export default router;

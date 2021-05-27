@@ -1,7 +1,7 @@
-const { Router } = require('express');
-const express = require('express');
+import { Router } from 'express';
+import express from 'express';
+import pool from '../database.js';
 const router = express.Router();
-const pool = require('../database').pool;
 
 
 // RETORNA AS CATEGORIAS
@@ -32,6 +32,7 @@ router.get('/:id_categoria', (req, res, next) => {
             'SELECT * FROM tb_categoria WHERE id_categoria = $1;',
             [req.params.id_categoria],
             (err, result) => {
+                done()
                 if(err) { return res.status(500).send({ error: err}) }
                 return res.status(200).send({response: result})
             }
@@ -49,6 +50,7 @@ router.get('/escat/:id_categoria', (req, res, next) => {
             'SELECT id_subcategoria, nom_subcategoria FROM tb_doacao WHERE id_categoria = $1;',
             [req.params.id_categoria],
             (err, result) => {
+                done()
                 if(err) { return res.status(500).send({ error: err}) }
                 return res.status(200).send({response: result})
             }
@@ -65,6 +67,7 @@ router.get('/subcategorias/:id_subcategoria', (req, res, next) => {
             'SELECT id_subcategoria, nom_subcategoria FROM tb_categoria WHERE id_subcategoria = $1;',
             [req.params.id_subcategoria],
             (err, result) => {
+                done()
                 if(err) { return res.status(500).send({ error: err}) }
                 return res.status(200).send({response: result})
             }
@@ -73,6 +76,4 @@ router.get('/subcategorias/:id_subcategoria', (req, res, next) => {
 }); 
 
 
-
-
-module.exports = router;
+export default router;
