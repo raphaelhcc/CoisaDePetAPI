@@ -47,7 +47,7 @@ app.use((req, res, next) => {
     // if (require.method ==='OPTIONS'){
     //     return res.status(200).send({})
     // }
-    res.header('Access-Control-Allow-Origin', 'request initiator or '*'');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS, PATCH, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK');
     res.header('Access-Control-Allow-Methods', 'request initiator or '*'');
     res.header('Access-Control-Allow-Credentials','true');
