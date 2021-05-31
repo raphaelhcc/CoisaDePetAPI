@@ -37,16 +37,21 @@ app.use(morgan('dev'));
 // app.use(bodyParser.json()); //json de entrada no parser
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Headers, Access-Control-Max-Age'
-    );
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    // res.header('Access-Control-Allow-Origin', '*');
+    // res.header(
+    //     'Access-Control-Allow-Headers',
+    //     'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Headers, Access-Control-Max-Age'
+    // );
+    // res.header('Access-Control-Allow-Credentials', 'true');
+    // res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
     // if (require.method ==='OPTIONS'){
     //     return res.status(200).send({})
     // }
+    res.header('Access-Control-Allow-Origin', 'request initiator or '*'');
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS, PATCH, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK');
+    res.header('Access-Control-Allow-Methods', 'request initiator or '*'');
+    res.header('Access-Control-Allow-Credentials','true');
+    res.header('Access-Control-Expose-Headers', 'request initiator or '*'');
 
     next();
 })
