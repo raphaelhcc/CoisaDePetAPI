@@ -44,9 +44,9 @@ app.use((req, res, next) => {
     // );
     // res.header('Access-Control-Allow-Credentials', 'true');
     // res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-    // if (require.method ==='OPTIONS'){
-    //     return res.status(200).send({})
-    // }
+    if (require.method ==='OPTIONS'){
+        return res.status(200).send({})
+    }
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS, PATCH, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK');
     res.header('Access-Control-Allow-Methods', 'request initiator or '*'');
