@@ -64,7 +64,11 @@ app.all('/', (req, res, next) => {
 
 app.use("/", indexRouter);
 app.use("/users", userRouter);
-app.use("/room", decode, chatRoomRouter);
+app.use("/room", decode, chatRoomRouter, (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next()
+});
 
 /** catch 404 and forward to error handler */
 // app.use('*', (req, res) => {
