@@ -49,9 +49,10 @@ app.use((req, res, next) => {
     }
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS, PATCH, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK');
-    res.header('Access-Control-Allow-Methods', 'request initiator or '*'');
+    res.header('Access-Control-Allow-Methods', '*');
     res.header('Access-Control-Allow-Credentials','true');
-    res.header('Access-Control-Expose-Headers', 'request initiator or '*'');
+    res.header('Access-Control-Expose-Headers', '*');
+    res.header('Access-Control-Max-Age', '86400')
     app.use(cors());
 
     next();
@@ -65,11 +66,7 @@ app.use((req, res, next) => {
 
 app.use("/", indexRouter);
 app.use("/users", userRouter);
-app.use("/room", decode, chatRoomRouter, (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next()
-});
+app.use("/room", decode, chatRoomRouter);
 
 /** catch 404 and forward to error handler */
 // app.use('*', (req, res) => {
