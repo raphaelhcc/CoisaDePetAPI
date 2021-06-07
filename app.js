@@ -52,14 +52,15 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'request initiator or '*'');
     res.header('Access-Control-Allow-Credentials','true');
     res.header('Access-Control-Expose-Headers', 'request initiator or '*'');
+    app.use(cors());
 
     next();
 })
-app.all('/', (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next()
-})
+// app.all('/', (req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     next()
+// })
 
 
 app.use("/", indexRouter);
