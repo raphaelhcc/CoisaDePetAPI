@@ -26,6 +26,8 @@ import { decode } from './server/middlewares/jwt.js'
 
 const app = express();
 
+app.use(cors());
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -36,27 +38,26 @@ app.use(morgan('dev'));
 // app.use(bodyParser.urlencoded({ extended: false })); //apenas dados simples
 // app.use(bodyParser.json()); //json de entrada no parser
 
-app.use((req, res, next) => {
-    // res.header('Access-Control-Allow-Origin', '*');
-    // res.header(
-    //     'Access-Control-Allow-Headers',
-    //     'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Headers, Access-Control-Max-Age'
-    // );
-    // res.header('Access-Control-Allow-Credentials', 'true');
-    // res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-    if (require.method ==='OPTIONS'){
-        return res.status(200).send({})
-    }
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS, PATCH, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK');
-    res.header('Access-Control-Allow-Methods', '*');
-    res.header('Access-Control-Allow-Credentials','true');
-    res.header('Access-Control-Expose-Headers', '*');
-    res.header('Access-Control-Max-Age', '86400')
-    app.use(cors());
+// app.use((req, res, next) => {
+//     // res.header('Access-Control-Allow-Origin', '*');
+//     // res.header(
+//     //     'Access-Control-Allow-Headers',
+//     //     'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Headers, Access-Control-Max-Age'
+//     // );
+//     // res.header('Access-Control-Allow-Credentials', 'true');
+//     // res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+//     if (require.method ==='OPTIONS'){
+//         return res.status(200).send({})
+//     }
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS, PATCH, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK');
+//     res.header('Access-Control-Allow-Credentials','true');
+//     res.header('Access-Control-Allow-Headers', '*');
+//     res.header('Access-Control-Expose-Headers', '*');
+//     res.header('Access-Control-Max-Age', '86400')
 
-    next();
-})
+//     next();
+// })
 // app.all('/', (req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", "*");
 //     res.header("Access-Control-Allow-Headers", "X-Requested-With");
