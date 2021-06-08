@@ -38,8 +38,9 @@ router.post('/', (req, res, next) => {
                 dt_iniciodoacao,
                 dt_fimdoacao,
                 url_fotoproduto,
-                flg_statusdoacao
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+                flg_statusdoacao,
+                val_curtida
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
             [
                 req.body.id_especie,
                 req.body.id_categoria, 
@@ -50,7 +51,9 @@ router.post('/', (req, res, next) => {
                 req.body.dt_iniciodoacao,
                 req.body.dt_fimdoacao,
                 req.body.url_fotoproduto,
-                req.body.flg_statusdoacao
+                req.body.flg_statusdoacao,
+                req.body.val_curtida
+
             ]
             ,
             (err, result) => {

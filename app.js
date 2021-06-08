@@ -7,6 +7,8 @@ import rotaPedidos from './routes/pedidos.js';
 import rotaDoacoes from './routes/doacoes.js';
 import rotaEspecies from './routes/especies.js';
 import rotaCategorias from './routes/categorias.js';
+import rotaCurtidas from './routes/curtidas.js';
+
 //----------------------
 import http from "http";
 import logger from "morgan";
@@ -82,6 +84,7 @@ app.use('/pedidos', rotaPedidos)
 app.use('/doacoes', rotaDoacoes)
 app.use('/especies', rotaEspecies)
 app.use('/categorias', rotaCategorias)
+app.use('/curtidas', rotaCurtidas)
 
 
 app.use((req,res,next) => {
