@@ -56,19 +56,21 @@ export default {
       })
     }
   },
-  deleteMessage: async (req, res)=> {
-    try{
-      const { id_message } = req.params;
+  deleteMessage: async (req, res) => {
+    try {
+      const {
+        id_message
+      } = req.params;
       const deletea = await ChatMessageModel.deletePostInChatRoom(id_message);
       return res.status(200).json({
         success: 'sucesso',
         deletea
       });
-    }catch (error) {
+    } catch (error) {
       return res.status(500).json({
         success: false,
         error: error,
-        
+
       }).console.log('erro1')
     }
   },
@@ -93,7 +95,6 @@ export default {
         messageText: req.body.messageText,
       };
       const currentLoggedUser = req.userId;
-      //req.userId;
       const post = await ChatMessageModel.createPostInChatRoom(roomId, messagePayload, currentLoggedUser);
       global.io.sockets.in(roomId).emit('new message', {
         message: post
@@ -124,12 +125,12 @@ export default {
       return res.status(200).json({
         success: '3',
         RoomIds: roomIds
-//        conversation: recentConversation
+        //        conversation: recentConversation
       });
-//      return res.status(200).json({
-//        success: '3',
-//        conversation: recentConversation
-//      });
+      //      return res.status(200).json({
+      //        success: '3',
+      //        conversation: recentConversation
+      //      });
     } catch (error) {
       return res.status(500).json({
         success: false,
@@ -139,10 +140,12 @@ export default {
   },
   getConversationByRoomId: async (req, res) => {
     try {
-      const { roomId } = req.params;
+      const {
+        roomId
+      } = req.params;
       const room = await ChatRoomModel.getChatRoomByRoomId(roomId)
       room.userIds = [room.userIds[0], room.userIds[1]]
-      
+
       if (!room) {
         return res.status(400).json({
           success: false,
@@ -152,28 +155,31 @@ export default {
       //const users = await usuarios.onGetUsersByIDs(room.userIds);
 
       pool.connect((err, client, done) => {
-        client.query(
-          'SELECT * FROM tb_usuario WHERE uuid = $1 OR uuid = $2;',
-          room.userIds,
-          async (err, result) => {
-            done()
-            const users = result
-            console.log(result)
+        if (err) {
+          console.log(err)
+        } else {
+          client.query(
+            'SELECT * FROM tb_usuario WHERE uuid = $1 OR uuid = $2;',
+            room.userIds,
+            async (err, result) => {
+              done()
+              const users = result
+              const options = {
+                page: parseInt(req.query.page) || 0,
+                limit: parseInt(req.query.limit) || 10,
+              };
+              const conversation = await ChatMessageModel.getConversationByRoomId(roomId, options);
 
-            const options = {
-              page: parseInt(req.query.page) || 0,
-              limit: parseInt(req.query.limit) || 10,
-            };
-            const conversation = await ChatMessageModel.getConversationByRoomId(roomId, options);
-            
-            return res.status(200).json({
-              success: '4',
-              conversation,
-              users,
-            });
+              return res.status(200).json({
+                success: '4',
+                conversation,
+                users,
+              });
 
-          }
-        )
+            }
+          )
+        }
+
       })
 
     } catch (error) {
