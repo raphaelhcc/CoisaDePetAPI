@@ -56,6 +56,22 @@ export default {
       })
     }
   },
+  deleteMessage: async (req, res)=> {
+    try{
+      const { id_message } = req.params;
+      const deletea = await ChatMessageModel.deletePostInChatRoom(id_message);
+      return res.status(200).json({
+        success: 'sucesso',
+        deletea
+      });
+    }catch (error) {
+      return res.status(500).json({
+        success: false,
+        error: error,
+        
+      }).console.log('erro1')
+    }
+  },
   postMessage: async (req, res) => {
     try {
       const {
@@ -76,7 +92,7 @@ export default {
       const messagePayload = {
         messageText: req.body.messageText,
       };
-      const currentLoggedUser = "ABvZidPoVoawBCaPAXNEbiqg1m42"
+      const currentLoggedUser = req.userId;
       //req.userId;
       const post = await ChatMessageModel.createPostInChatRoom(roomId, messagePayload, currentLoggedUser);
       global.io.sockets.in(roomId).emit('new message', {
