@@ -15,18 +15,16 @@ export const encode = async (req, res, next) => {
         [uuid],
         (err, result) => {
           const usuario = result;
-          console.log(usuario)
           const payload = {
-            userId: usuario.uuid,
-          };
-          const authToken = jwt.sign(payload, SECRET_KEY);
-          req.authToken = authToken;
-          next();
-          return result
+            userId: usuario.rows[0].uuid,
+           };
+           const authToken = jwt.sign(payload.userId, SECRET_KEY);
+           req.authToken = authToken;
+           next();
+           return result
         }
       )
     })
-
 
   } catch (error) {
     return res.status(400).json({
@@ -46,9 +44,11 @@ export const decode = (req, res, next) => {
   const accessToken = req.headers.authorization.split(' ')[1];
   try {
     const decoded = jwt.verify(accessToken, SECRET_KEY);
-    req.userId = decoded.userId;
+    req.userId = decoded;
     req.userType = decoded.type;
+    //return decoded
     return next();
+
   } catch (error) {
     return res.status(401).json({
       success: false,
