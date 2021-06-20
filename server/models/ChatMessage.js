@@ -47,6 +47,14 @@ const chatMessageSchema = new mongoose.Schema(
  * @param {Object} message - message you want to post in the chat room
  * @param {String} postedByUser - user who is posting the message
  */
+
+ chatMessageSchema.statics.deletePostInChatRoom = async function (id_message) {
+  const deletemsg = await this.deleteOne({_id:id_message}, function (err) {
+    if(err) console.log("err");
+    console.log("Successful deletion");
+  });
+}
+
 chatMessageSchema.statics.createPostInChatRoom = async function (chatRoomId, message, postedByUser) {
   try {
     const post = await this.create({

@@ -1,10 +1,9 @@
-import { Router }  from 'express';
 import express  from 'express';
 import pool  from '../database.js';
 const router = express.Router();
 
 
-// RETORNA OS PEDIDOS
+// RETORNA AS ESPÉCIES
 router.get('/', (req, res, next) => {
 
     pool.connect((err, client, done) => {

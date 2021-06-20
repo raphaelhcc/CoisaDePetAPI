@@ -1,9 +1,6 @@
 import mongoose from 'mongoose'
-import config from './index.js'
 
-const CONNECTION_URL = `mongodb+srv://raphael:root@coisadepet.fmwmc.mongodb.net/test`
-
-mongoose.connect(CONNECTION_URL, {
+mongoose.connect(process.env.MONGOBDURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

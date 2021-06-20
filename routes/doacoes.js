@@ -1,7 +1,9 @@
-import { Router } from 'express';
 import express from 'express';
 import pool from'../database.js';
 const router = express.Router();
+import multer from 'multer';
+import multerConfig from './../server/config/multer.js';
+import Post from './../server/models/Post.js'
 
 
 // RETORNA AS DOAÇÕES
@@ -22,52 +24,68 @@ router.get('/', (req, res, next) => {
     }) 
 });
 
-// // INSERE DOAÇÃO
-router.post('/', (req, res, next) => {
+//INSERE UMA DOAÇÃO
+router.post('/', multer(multerConfig).single("file"), async (req, res) => {
+    const {
+        originalname: name,
+        size,
+        key,
+        location: url = ""
+    } = req.file;
+
+    const post = await Post.create({
+        name,
+        size,
+        key,
+        url
+    });
 
     pool.connect((err, client, done) => {
-        if(err) { return res.status(500).send({ error: err}) }
-        client.query(
-            `INSERT INTO tb_doacao (
-                id_especie,
-                id_categoria, 
-                uuid, 
-                id_subcategoria, 
-                dsc_doacao,  
-                dsc_cidade,
-                dt_iniciodoacao,
-                dt_fimdoacao,
-                url_fotoproduto,
-                flg_statusdoacao,
-                val_curtida
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [
-                req.body.id_especie,
-                req.body.id_categoria, 
-                req.body.uuid,
-                req.body.id_subcategoria, 
-                req.body.dsc_doacao,
-                req.body.dsc_cidade,
-                req.body.dt_iniciodoacao,
-                req.body.dt_fimdoacao,
-                req.body.url_fotoproduto,
-                req.body.flg_statusdoacao,
-                req.body.val_curtida
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(post.url)
 
-            ]
-            ,
-            (err, result) => {
-                done();
-                if(err) { 
-                    return res.status(500).send({ error: err}) }
-                res.status(201).send({
-                    mensagem: 'Doação inserida com sucesso',
-                    id_pedido: result.insertId
-                });
-            }
-        )
+            client.query(
+                `insert into tb_doacao
+            (
+              id_especie,
+              id_categoria,
+              uuid,
+              id_subcategoria,
+              dsc_doacao,
+              dsc_cidade,
+              dt_iniciodoacao,
+              dt_fimdoacao,
+              url_fotoproduto,
+              flg_statusdoacao,
+              dsc_idade,
+              val_curtida
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+                [
+                    req.body.id_especie,
+                    req.body.id_categoria,
+                    req.body.uuid,
+                    req.body.id_subcategoria,
+                    req.body.dsc_doacao,
+                    req.body.dsc_cidade,
+                    req.body.dt_iniciodoacao,
+                    req.body.dt_fimdoacao,
+                    post.url,
+                    req.body.flg_statusdoacao,
+                    req.body.dsc_idade,
+                    req.body.val_curtida
+                ], (err, result) => {
+                    done();
+                    if (err) {
+                        return console.log(err)
+                    } else {}
+                }
+            )
+        }
     })
-}); 
+    return res.status(201).send(post);
+});
 
 // RETORNA UMA DOAÇAO ESPECÍFICA
 router.get('/:id_doacao', (req, res, next) => {

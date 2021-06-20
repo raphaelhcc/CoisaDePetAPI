@@ -1,12 +1,8 @@
 // utils
 import makeValidation from '@withvoid/make-validation';
 // models
-import ChatRoomModel, {
-  CHAT_ROOM_TYPES
-} from '../models/ChatRoom.js';
+import ChatRoomModel, { CHAT_ROOM_TYPES } from '../models/ChatRoom.js';
 import ChatMessageModel from '../models/ChatMessage.js';
-import UserModel from '../models/User.js';
-import usuarios from '../controllers/usuarios.js';
 import pool from '../../database.js';
 
 

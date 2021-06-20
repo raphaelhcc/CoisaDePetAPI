@@ -1,4 +1,3 @@
-import { Router } from 'express';
 import express from 'express';
 import pool from'../database.js';
 const router = express.Router();
@@ -48,7 +47,7 @@ router.put('/doacao', (req, res, next) => {
     })
 }); 
 
-// RETORNA AS 10 DOAÇÕES com mais curtidas
+// RETORNA OS 10 PEDIDOS com mais curtidas
 router.get('/pedido', (req, res, next) => {
 
     pool.connect((err, client, done) => {

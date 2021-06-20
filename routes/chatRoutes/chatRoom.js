@@ -10,5 +10,6 @@ router
   .post('/initiate', chatRoom.initiate)
   .post('/:roomId/message', chatRoom.postMessage)
   .put('/:roomId/mark-read', chatRoom.markConversationReadByRoomId)
+  .delete('/:id_message', chatRoom.deleteMessage)
 
 export default router;
